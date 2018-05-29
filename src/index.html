@@ -4,6 +4,20 @@
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- bootstrap css -->
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!--Load the AJAX API-->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+  <script>
+    // !important: You want to give this variable(var googleLoaded = false;). This is used to run multiple chart in your jade.
+    var googleLoaded = false;
+    // !important: Define which chart packages to preload.Because this package uses ChartWrappers you can use any chart type that Google supports, but if it // isn't loaded it will load it on demand.
+    var googleChartsPackagesToLoad = ['geochart'];
+  </script>
+
   <title><%= htmlWebpackPlugin.options.title %></title>
   <meta name="description" content="<%= htmlWebpackPlugin.options.metadata.description %>">
   <!-- base url -->

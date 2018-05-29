@@ -1,0 +1,18 @@
+
+<!--<ng-template>-->
+
+  <section>
+
+    <h3>All registered users:</h3>
+    <ul>
+      <li *ngFor="let user of users">
+        {{user.username}} ({{user.firtName}} {{user.lastName}})
+        - <a (click)="deleteUser(user._id)" >Delete</a>
+      </li>
+    </ul>
+
+  </section>
+
+
+<!--</ng-template>-->
+

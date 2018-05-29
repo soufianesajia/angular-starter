@@ -1,0 +1,156 @@
+<section>
+
+
+  <fieldset  >
+    <legend>
+      <button class="btn btn-primary" (click)="showFilters =! showFilters">
+        {{ showFilters ? 'Hide' : 'Show' }}
+      </button>
+      Filters
+    </legend>
+
+  <form *ngIf="showFilters" #f="ngForm" (ngSubmit)="f.form.valid && onFormSubmit(f.value)" novalidate>
+
+  <mat-form-field>
+    <mat-select
+      placeholder="Infra level"
+      [(ngModel)]="selectedLevel"
+      name="elementLevel"
+      #selectedLevelModel="ngModel"
+      (change)="onSelect($event.value)"
+      required>
+      <mat-option *ngFor="let level of elementLevel" [value]="level.type">
+        {{level.name}}
+      </mat-option>
+    </mat-select>
+    <mat-hint>Select infrastructure level.</mat-hint>
+    <mat-error *ngIf="selectedLevelModel.hasError('required')">You must make a selection</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select
+      placeholder="Element"
+      #selectedElementModel="ngModel"
+      [(ngModel)]="selectedElement"
+      name="elementList"
+      required>
+      <mat-option *ngFor="let e of elementList" [value]="e.id">
+        {{e.name}}
+      </mat-option>
+    </mat-select>
+    <mat-hint>Select infrastructure element</mat-hint>
+    <mat-error *ngIf="selectedLevelModel.hasError('required')">You must make a selection</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Start date</mat-label>
+    <input matInput
+           [matDatepicker]="startDatePicker"
+           [(ngModel)]="startDate"
+           #startDateModel="ngModel"
+           name="startDate"
+           [min]="minStartDate"
+           [max]="maxStartDate"
+           required>
+    <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+    <mat-datepicker #startDatePicker [startAt]="startDate"></mat-datepicker>
+    <mat-error *ngIf="startDateModel.hasError('required')">
+      Please choose a date.
+    </mat-error>
+    <mat-error *ngIf="startDateModel.hasError('matDatepickerMin')">
+      Please choose a later date.
+    </mat-error>
+    <mat-error *ngIf="startDateModel.hasError('matDatepickerMax')">
+      Please choose an earlier date.
+    </mat-error>
+  </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>start time</mat-label>
+        <input matInput name="startTime" [(ngModel)]="startTime" atp-time-picker value="00:00"/>
+    </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>End date</mat-label>
+    <input matInput
+           [matDatepicker]="endDatePicker"
+           [(ngModel)]="endDate"
+           name="endDate"
+           #endDateModel="ngModel"
+           [min]="startDate || minEndDate"
+           [max]="maxEndDate"
+           required>
+    <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+    <mat-datepicker #endDatePicker [startAt]="endDate"></mat-datepicker>
+    <mat-error *ngIf="endDateModel.hasError('required')">
+      Please choose a date.
+    </mat-error>
+    <mat-error *ngIf="endDateModel.hasError('matDatepickerMin') && !startDate">
+      Please choose a later date.
+    </mat-error>
+    <mat-error *ngIf="endDateModel.hasError('matDatepickerMin') && startDate">
+      Please choose a date after start date.
+    </mat-error>
+    <mat-error *ngIf="endDateModel.hasError('matDatepickerMax')">
+      Please choose an earlier date.
+    </mat-error>
+  </mat-form-field>
+
+
+    <mat-form-field>
+      <mat-label>Stop time</mat-label>
+      <input matInput name="endTime" [(ngModel)]="endTime" atp-time-picker value=""/>
+    </mat-form-field>
+
+
+  <button type="submit" class="btn btn-primary" [disabled]="f.invalid" >Get data</button>
+
+  </form>
+  </fieldset>
+</section>
+
+
+<mat-progress-bar *ngIf="showProgressBar" mode="indeterminate"></mat-progress-bar>
+
+
+<mat-grid-list *ngIf="!showProgressBar" cols="2" rowHeight="2.5:1">
+
+
+  <!--1-->
+  <mat-grid-tile>
+
+    <div *ngIf="data1"><combo-chart [data]="data1" [config]="config1" [elementId]="elementId1" ></combo-chart></div>
+
+  </mat-grid-tile>
+
+  <!--2-->
+  <mat-grid-tile>
+
+    <div *ngIf="data2">
+      <combo-chart [data]="data2" [config]="config2" [elementId]="elementId2"></combo-chart>
+    </div>
+
+  </mat-grid-tile>
+
+  <!--3-->
+  <mat-grid-tile>
+    <div *ngIf="data3"><pie-chart [data]="data3" [config]="config3" [elementId]="elementId3"></pie-chart></div>
+  </mat-grid-tile>
+
+  <!--4-->
+  <mat-grid-tile>
+    <div *ngIf="data4"><calendar-chart [data]="data4" [config]="config4" [elementId]="elementId4"></calendar-chart></div>
+  </mat-grid-tile>
+  <!--4-->
+  <mat-grid-tile>
+    <div *ngIf="data5"><calendar-chart [data]="data5" [config]="config5" [elementId]="elementId5"></calendar-chart></div>
+  </mat-grid-tile>
+  <!--4-->
+  <mat-grid-tile>
+    <div *ngIf="data6"><area-chart [data]="data6" [config]="config6" [elementId]="elementId6"></area-chart></div>
+  </mat-grid-tile>
+
+</mat-grid-list>
+
+
+

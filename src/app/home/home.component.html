@@ -1,37 +1,58 @@
-<div>
-  <h1 x-large class="sample-content">Your Content Here</h1>
 
-  <hr>
+<mat-toolbar class="example-header" color="primary">
+  <mat-toolbar-row>
+  <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
 
-  <div>
-    For hot module reloading run
-    <pre>npm run start:hmr</pre>
-  </div>
+  Reporting-tool. Welcome {{currentUser.username}},your roles {{currentUser.roles}}
+  <span class="example-spacer"></span>
 
-  <hr>
+  <mat-menu #appMenu="matMenu">
+    <button mat-menu-item [routerLink]="['/login']" >Logout</button>
+  </mat-menu>
 
-  <div>
-    <h4>Local State</h4>
+  <button mat-icon-button [matMenuTriggerFor]="appMenu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  </mat-toolbar-row>
+</mat-toolbar>
 
-    <form (ngSubmit)="submitState(localState.value)" autocomplete="off">
+<mat-sidenav-container class="example-container" color="primary">
+  <mat-sidenav #sidenav mode="side" opened="true" class="example-sidenav">
 
-      <input
-        [value]="localState.value"
-        (input)="localState.value = $event.target.value"
-        placeholder="Submit Local State to App State"
-        autofocus>
+    <mat-nav-list>
 
-      <button>Submit Value</button>
-    </form>
-    <!--
-        <input type="text" [value]="localState.value" (input)="localState.value = $event.target.value" autofocus>
-        Rather than wiring up two-way data-binding ourselves with [value] and (input)
-        we can use Angular's [(ngModel)] syntax
-        <input type="text" name="textInput" [(ngModel)]="localState.value" autofocus>
-      -->
+      <a mat-list-item routerLink="/admin" *ngIf="canShowRoute(['ADMIN','SUPER-ADMIN'])">Admin</a>
+      <a mat-list-item routerLink="/dashborad">dashborad</a>
 
-    <pre>this.localState = {{ localState | json }}</pre>
+      <a mat-list-item routerLink="/supervision" *ngIf="canShowRoute(['ADMIN','SUPER-ADMIN','SUPERVISION'])">Supervision</a>
+      <a mat-list-item routerLink="/monetic" *ngIf="canShowRoute(['ADMIN','SUPER-ADMIN','MONETIC'])">Monétique</a>
+      <a mat-list-item routerLink="/exploit" *ngIf="canShowRoute(['ADMIN','SUPER-ADMIN','MAINTAINER'])">Carl</a>
 
-  </div>
+      <a mat-list-item routerLink="/about"  *ngIf="canShowRoute(['ADMINa','SUPER-ADMIN','MAINTAINER'])">about</a>
+      <a mat-list-item routerLink="/detail" *ngIf="canShowRoute(['ADMINa','SUPER-ADMIN','MAINTAINER'])"> detail</a>
+      <a mat-list-item routerLink="/barrel" *ngIf="canShowRoute(['ADMINa','SUPER-ADMIN','MAINTAINER'])">barrel</a>
 
-</div>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+
+    <breadcrumb></breadcrumb>
+
+    <router-outlet></router-outlet>
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
+
+<mat-toolbar class="example-footer" color="primary">
+  <mat-toolbar-row>
+    <span>Footer</span>
+  </mat-toolbar-row>
+
+  <mat-toolbar-row>
+    <span>Sodetrel</span>
+  </mat-toolbar-row>
+
+</mat-toolbar>
+

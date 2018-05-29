@@ -23,6 +23,7 @@ const EvalSourceMapDevToolPlugin = require('webpack/lib/EvalSourceMapDevToolPlug
 module.exports = function (options) {
   const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
   const HOST = process.env.HOST || 'localhost';
+  //const HOST = process.env.HOST || '192.168.154.158';
   const PORT = process.env.PORT || 3000;
 
   const METADATA = Object.assign({}, buildUtils.DEFAULT_METADATA, {

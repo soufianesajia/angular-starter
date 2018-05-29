@@ -3,9 +3,17 @@ import {
   OnInit
 } from '@angular/core';
 
-import { AppState } from '../app.service';
+
 import { Title } from './title';
-import { XLargeDirective } from './x-large';
+
+import { User } from '../_models/index';
+import { UserService } from '../_services/index';
+
+import { Chart } from 'chart.js';
+
+import {AuthGuard} from "../_guards/auth.guard";
+import { Ng5BreadcrumbModule, BreadcrumbService } from "ng5-breadcrumb";
+
 
 @Component({
   /**
@@ -30,28 +38,42 @@ import { XLargeDirective } from './x-large';
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
-  /**
+
+  currentUser: User;
+  title : string;
+
+
+ /**
    * Set our default values
    */
   public localState = { value: '' };
-  /**
-   * TypeScript public modifiers
-   */
-  constructor(
-    public appState: AppState,
-    public title: Title
-  ) {}
+
+  constructor(private breadcrumbService: BreadcrumbService,
+              private userService: UserService,
+              private authGuard : AuthGuard,
+
+               ) {
+
+            this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+
+  }
 
   public ngOnInit() {
     console.log('hello `Home` component');
-    /**
-     * this.title.getData().subscribe(data => this.data = data);
-     */
+
   }
 
   public submitState(value: string) {
     console.log('submitState', value);
-    this.appState.set('value', value);
+    //this.appState.set('value', value);
     this.localState.value = '';
+    console.log('this.currentUser',this.currentUser);
   }
+
+  public canShowRoute(routeRoles: string[]){
+    if (this.authGuard.isCurrentUserHasRole(this.currentUser.roles, routeRoles)) return true;
+    return false;
+  }
+
 }

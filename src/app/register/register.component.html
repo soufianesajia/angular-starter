@@ -1,0 +1,80 @@
+﻿<div class="col-md-6 col-md-offset-3">
+    <h2>Register</h2>
+    <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
+
+
+      <mat-form-field>
+        <mat-select
+          placeholder="Auhentificator"
+          [(ngModel)]="model.authentificator"
+          name="authentificator"
+          #auhentificatorModal="ngModel"
+          required>
+          <mat-option *ngFor="let a of auhentificators" [value]="a.name">
+            {{a.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="auhentificatorModal.hasError('required')">You must make a selection</mat-error>
+      </mat-form-field>
+
+      <!--local registration-->
+
+
+      <mat-form-field *ngIf="model.authentificator == 'local' ">
+        <mat-label>First name</mat-label>
+        <input matInput name="username" [(ngModel)]="model.firstName" #firstName="ngModel" required>
+        <mat-error *ngIf="firstName.hasError('required')">You must enter a first name</mat-error>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="model.authentificator == 'local' ">
+        <mat-label>Last name</mat-label>
+        <input matInput name="username" [(ngModel)]="model.lastName" #lastName="ngModel" required>
+        <mat-error *ngIf="lastName.hasError('required')">You must enter a last name</mat-error>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="model.authentificator == 'local' ">
+        <mat-label>email</mat-label>
+        <input matInput type="email" name="username" [(ngModel)]="model.email" #email="ngModel"
+               pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+        <mat-error *ngIf="email.hasError('required')">You must enter a email</mat-error>
+        <mat-error *ngIf="email.hasError('pattern')">You must enter a valid email</mat-error>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="model.authentificator == 'local' ">
+        <mat-label>Username</mat-label>
+        <input matInput name="username" [(ngModel)]="model.username" #usernameL="ngModel" required>
+        <mat-error *ngIf="usernameL.hasError('required')">You must enter a username</mat-error>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="model.authentificator == 'local' ">
+        <mat-label>Password</mat-label>
+        <input matInput name="password" hideRequiredMarker="hide" [type]="hide ? 'password' : 'text'"
+               [(ngModel)]="model.password" #passwordL="ngModel" required>
+        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+        <mat-error *ngIf="passwordL.hasError('required')">You must enter a password</mat-error>
+      </mat-form-field>
+
+      <!--register with supervision or mobeepass-->
+      <mat-form-field *ngIf="model.authentificator == 'mobeepass' || model.authentificator == 'supervision'">
+        <mat-label>Username</mat-label>
+        <input matInput name="username" [(ngModel)]="model.username" #username="ngModel" required>
+        <mat-error *ngIf="username.hasError('required')">You must enter a username</mat-error>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="model.authentificator == 'mobeepass' || model.authentificator == 'supervision'">
+        <mat-label>Password</mat-label>
+        <input matInput name="password" hideRequiredMarker="hide" [type]="hide ? 'password' : 'text'"
+               [(ngModel)]="model.password" #password="ngModel" required>
+        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+        <mat-error *ngIf="password.hasError('required')">You must enter a password</mat-error>
+      </mat-form-field>
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary" [disabled]="f.invalid" >Register</button>
+        <a [routerLink]="['/login']" class="btn btn-link">Cancel</a>
+      </div>
+
+
+        </form>
+
+</div>
